@@ -938,9 +938,9 @@ sub copy_file
     {
         if ( compare( $from, $to ) != 0 ) { unlink($to); }
     }
-    unless ( copy( $from, $to ) )
+    unless ( system("ln -f $from $to") == 0 )
     {
-        warn("apt-mirror: can't copy $from to $to");
+        warn("apt-mirror: can't make hard link from $from to $to");
         return;
     }
     my ( $atime, $mtime ) = ( stat($from) )[ 8, 9 ];
